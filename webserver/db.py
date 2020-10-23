@@ -18,7 +18,7 @@ async def channel_find_all() -> List[ChannelItem]:
 
 async def channel_create(description: str, rtsp_link: str, status=Status.OFF) -> int:
     max_id = max(_in_memory_store.keys()) + 1 if _in_memory_store else 1
-    _tmp_db[max_id] = ChannelItem(max_id, description, rtsp_link, status)
+    _in_memory_store[max_id] = ChannelItem(max_id, description, rtsp_link, status)
     return max_id
 
 async def channel_update_status(channel_id: int, status: Status) -> None:
