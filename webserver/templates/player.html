@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% set subTitle = item.description %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p>
+            <h3>{{ item.description }}</h3>
+            </p>
+            <div class="embed-responsive embed-responsive-16by9">
+                <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+                <!-- Or if you want a more recent alpha version -->
+                <!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@alpha"></script> -->
+                <video controls autoplay muted="true" preload="none" id="video"></video>
+                <script>
+                (function() {
+                    var video = document.getElementById('video');
+                    var videoSrc = "{{ url('hls', filename='/channel_'+item.channel_id|string+'/playlist.m3u8') }}";
+
+                    var ajaxSettings = {
+                        url: videoSrc,
+                        method: 'GET',
+                        cache: false,
+                        retries: 5
+                    }
+                    
+                    function onFail() {
+                        if( ajaxSettings.retries-- > 0 ) {
+                            setTimeout(function(){
+                                $.ajax(ajaxSettings).fail(onFail).done(onSuccess);
+                            }, 3000);
+                        }
+                    }
+
+                    function onSuccess() {
+                        //
+                        // First check for native browser HLS support
+                        //
+                        if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                            video.src = videoSrc;
+                            video.addEventListener('loadedmetadata', function() {
+                                video.play();
+                            });
+                        //
+                        // If no native HLS support, check if hls.js is supported
+                        //
+                        } else if (Hls.isSupported()) {
+                            var hls = new Hls();
+                            hls.loadSource(videoSrc);
+                            hls.attachMedia(video);
+                            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                                video.play();
+                            });
+                        }
+                    }
+
+                    $.ajax(ajaxSettings).fail(onFail).done(onSuccess);
+
+                })();
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
