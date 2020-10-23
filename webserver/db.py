@@ -2,10 +2,10 @@ from typing import List
 from webserver.model import Status, ChannelItem
 
 _in_memory_store = {
-    1: ChannelItem(1, 'Outdoor 1', 'rtsp://freja.hiof.no:1935/rtplive/definst/hessdalen03.stream', Status.OFF),
-    2: ChannelItem(2, 'Kitchen 1', 'rtsp://172.23.3.10/face_track_20_fhd', Status.OFF),
-    3: ChannelItem(3, 'Kitchen 2', 'rtsp://34.82.126.102:554/face_track_rafa_fhd', Status.OFF),
-    4: ChannelItem(4, 'Dining Room', 'rtsp://34.82.126.102:554/face_track_rafa_fhd', Status.OFF),
+    1: ChannelItem(1, 'Outdoor Front', 'rtsp://freja.hiof.no:1935/rtplive/definst/hessdalen03.stream', Status.OFF),
+    2: ChannelItem(2, 'Kitchen Entrance', 'rtsp://192.168.0.10:553/kitchen_1_fhd', Status.OFF),
+    3: ChannelItem(3, 'Bathroom :)', 'rtsp://192.168.0.11:553/bathroom_fhd', Status.OFF),
+    4: ChannelItem(4, 'Living Room Entrance', 'rtsp://192.168.0.12/living_room_fhd', Status.OFF)
 }
 
 async def channel_find_by_id(channel_id: int) -> ChannelItem:
