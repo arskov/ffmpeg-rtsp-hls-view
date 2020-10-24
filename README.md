@@ -2,7 +2,7 @@
 
 Sample web application which allows to consume RTSP streams at the backend and provides HLS output for the client into the browser.  
 
-## Docker build and run
+## Build and run in Docker
 ```
 docker build --no-cache -t "ffmpeg-rtsp-hls:0.0.1"
 docker volume create hls-out
