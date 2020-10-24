@@ -39,7 +39,8 @@ async def start_segmenter_async(channel_item: ChannelItem, base_out_dir: str) ->
 
 async def shutdown(channel_id: int = None) -> None:
     if channel_id:
-        _process_map[channel_id].terminate()
+        if channel_id in _process_map:
+            _process_map[channel_id].terminate()
     else:
         for k, v in _process_map.items():
             v.terminate()
