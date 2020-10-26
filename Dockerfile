@@ -29,7 +29,8 @@ ENV PATH="$PYENV_ROOT/bin:$PATH"
 ENV PYENV_VERSION=${PYTHON_VERSION}
 RUN pyenv install -v ${PYTHON_VERSION} && pyenv global ${PYTHON_VERSION}
 ENV PATH="/opt/pyenv/versions/${PYTHON_VERSION}/bin:$PATH"
-RUN python -m pip install --upgrade pip && python -m pip install pipenv && pipenv sync
+RUN python -m pip install --upgrade pip && python -m pip install pipenv
+RUN pipenv install --system --deploy --ignore-pipfile
 EXPOSE 8080
-ENTRYPOINT ["pipenv", "run"]
+ENTRYPOINT [""]
 CMD ["python", "-m", "webserver"]

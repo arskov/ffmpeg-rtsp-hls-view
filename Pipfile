@@ -11,6 +11,7 @@ aiohttp = "*"
 aiopg = "*"
 pyyaml = "*"
 aiohttp-jinja2 = "*"
+typing_extensions = "*"
 
 [requires]
 python_full_version = "3.8.5"
