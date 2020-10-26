@@ -31,14 +31,14 @@ class BaseSegmenter:
         if not self.ff_segment_out:
             raise Exception('Command is not ready')
         if logger.isEnabledFor(logging.DEBUG):
-            logger.debug("Ffmpeg CLI command: '%s'", " ".join(ffmpeg.compile(self.ff_segment_out)))
+            logger.debug("FFmpeg CLI command: '%s'", " ".join(ffmpeg.compile(self.ff_segment_out)))
         return (self.ff_segment_out.run())
     
     def run_async(self):
         if not self.ff_segment_out:
             raise Exception('Command is not ready')
         if logger.isEnabledFor(logging.DEBUG):
-            logger.debug("Ffmpeg CLI command: '%s'", " ".join(ffmpeg.compile(self.ff_segment_out)))
+            logger.debug("FFmpeg CLI command: '%s'", " ".join(ffmpeg.compile(self.ff_segment_out)))
         return self.ff_segment_out.run_async()
 
 
