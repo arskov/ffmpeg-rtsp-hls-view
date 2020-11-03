@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% set subTitle = "Channel List" %}
+
+{% block content %}
+<div class="modal" tabindex="-1" id="delete-channel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" id="save-action">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $('#delete-channel').on('show.bs.modal', function(event) {
+    const srcButton = $(event.relatedTarget);
+    const channelId = srcButton.data('channelid');
+    const channelDesc = srcButton.data('channeldesc');
+    const modal = $(this);
+    modal.find('.modal-body p').text('Are you sure to delete channel: ' + channelDesc);
+    modal.find('.modal-footer #save-action').click(function() {
+      $.ajax({
+        url: 'channels/' + channelId,
+        method: 'DELETE'})
+        .done(function() {
+          window.location.reload();
+        });
+    });
+  });
+</script>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <p class="lead"></p>
+
+      {% for item in items %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{item.description}} <span class="badge {{ 'badge-success' if item.status.value == 1 else 'badge-secondary' }}">{{ 'on' if item.status.value == 1 else 'off' }}</span></h5>
+            <p class="card-text text-truncate">{{item.rtsp_link}}</p>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
+              <a href="/channels/{{ item.channel_id }}" class="btn btn-block btn-primary">Watch</a>
+              <button 
+                type="button" 
+                class="btn btn-secondary"
+                data-toggle="modal"
+                data-target="#delete-channel"
+                data-channelId="{{ item.channel_id }}"
+                data-channelDesc="{{ item.description }}">Delete</button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+{% endblock %}
